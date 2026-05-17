@@ -1,32 +1,51 @@
--- Scripst de Creación de la Base de Datos - SGBD MS SQL Server
-
+-- =========================================
+-- SGBD: MS SQL Server
+-- Red Social Pascualina
+-- =========================================
 
 -- =========================================
 -- 1. TABLA: usuario (Independiente)
 -- =========================================
+
 CREATE TABLE usuario (
     id_usuario INT IDENTITY(1,1) PRIMARY KEY,
+
     nombre VARCHAR(120) NOT NULL,
+
     correo VARCHAR(120) UNIQUE NOT NULL,
-    contraseña VARCHAR(120) NOT NULL,
+
+    contrasena VARCHAR(120) NOT NULL,
 
     tipo_usuario VARCHAR(50) NOT NULL
-    CHECK (tipo_usuario IN ('estudiante', 'docente', 'empleado', 'empresa', 'publico')),
+    CHECK (tipo_usuario IN (
+        'estudiante',
+        'docente',
+        'empleado',
+        'empresa',
+        'publico'
+    )),
 
-    fecha_registro DATE DEFAULT GETDATE(),
+    fecha_registro DATE
+    DEFAULT CAST(GETDATE() AS DATE),
 
-    -- Campo para datos semi-estructurados
     perfil_usuario NVARCHAR(MAX)
 );
 
 -- =========================================
 -- 2. TABLA: grupo
+-- Dependiente de usuario
 -- =========================================
+
 CREATE TABLE grupo (
     id_grupo INT IDENTITY(1,1) PRIMARY KEY,
+
     nombre_grupo VARCHAR(120) NOT NULL,
-    descripcion TEXT,
-    fecha_creacion DATE DEFAULT GETDATE(),
+
+    descripcion VARCHAR(MAX),
+
+    fecha_creacion DATE
+    DEFAULT CAST(GETDATE() AS DATE),
+
     id_usuario INT NOT NULL,
 
     CONSTRAINT fk_grupo_usuario
@@ -37,13 +56,19 @@ CREATE TABLE grupo (
 
 -- =========================================
 -- 3. TABLA: perfil
+-- Dependiente de usuario
 -- =========================================
+
 CREATE TABLE perfil (
     id_perfil INT IDENTITY(1,1) PRIMARY KEY,
+
     id_usuario INT UNIQUE NOT NULL,
-    biografia TEXT,
-    intereses TEXT,
-    habilidades TEXT,
+
+    biografia VARCHAR(MAX),
+
+    intereses VARCHAR(MAX),
+
+    habilidades VARCHAR(MAX),
 
     CONSTRAINT fk_perfil_usuario
     FOREIGN KEY (id_usuario)
@@ -53,15 +78,25 @@ CREATE TABLE perfil (
 
 -- =========================================
 -- 4. TABLA: publicacion
+-- Dependiente de usuario
 -- =========================================
+
 CREATE TABLE publicacion (
     id_publicacion INT IDENTITY(1,1) PRIMARY KEY,
+
     id_usuario INT NOT NULL,
-    contenido TEXT NOT NULL,
-    fecha_publicacion DATE DEFAULT GETDATE(),
+
+    contenido VARCHAR(MAX) NOT NULL,
+
+    fecha_publicacion DATE
+    DEFAULT CAST(GETDATE() AS DATE),
 
     visibilidad VARCHAR(20)
-    CHECK (visibilidad IN ('publica', 'privada', 'amigos')),
+    CHECK (visibilidad IN (
+        'publica',
+        'privada',
+        'amigos'
+    )),
 
     datos_multimedia NVARCHAR(MAX),
 
@@ -73,13 +108,20 @@ CREATE TABLE publicacion (
 
 -- =========================================
 -- 5. TABLA: evento
+-- Dependiente de grupo
 -- =========================================
+
 CREATE TABLE evento (
     id_evento INT IDENTITY(1,1) PRIMARY KEY,
+
     nombre_evento VARCHAR(120) NOT NULL,
-    descripcion TEXT,
+
+    descripcion VARCHAR(MAX),
+
     fecha_evento DATE NOT NULL,
+
     lugar VARCHAR(120),
+
     id_grupo INT NOT NULL,
 
     detalles_evento NVARCHAR(MAX),
@@ -92,18 +134,25 @@ CREATE TABLE evento (
 
 -- =========================================
 -- 6. TABLA: comentario
+-- Intermedia
 -- =========================================
+
 CREATE TABLE comentario (
     id_comentario INT IDENTITY(1,1) PRIMARY KEY,
+
     id_usuario INT NOT NULL,
+
     id_publicacion INT NOT NULL,
-    contenido TEXT NOT NULL,
-    fecha_comentario DATE DEFAULT GETDATE(),
+
+    contenido VARCHAR(MAX) NOT NULL,
+
+    fecha_comentario DATE
+    DEFAULT CAST(GETDATE() AS DATE),
 
     CONSTRAINT fk_comentario_usuario
     FOREIGN KEY (id_usuario)
     REFERENCES usuario(id_usuario)
-    ON DELETE CASCADE,
+    ON DELETE NO ACTION,
 
     CONSTRAINT fk_comentario_publicacion
     FOREIGN KEY (id_publicacion)
@@ -113,19 +162,30 @@ CREATE TABLE comentario (
 
 -- =========================================
 -- 7. TABLA: reaccion
+-- Intermedia
 -- =========================================
+
 CREATE TABLE reaccion (
     id_reaccion INT IDENTITY(1,1) PRIMARY KEY,
+
     id_usuario INT NOT NULL,
+
     id_publicacion INT NOT NULL,
 
     tipo_reaccion VARCHAR(50)
-    CHECK (tipo_reaccion IN ('like', 'love', 'haha', 'wow', 'triste', 'enojado')),
+    CHECK (tipo_reaccion IN (
+        'like',
+        'love',
+        'haha',
+        'wow',
+        'triste',
+        'enojado'
+    )),
 
     CONSTRAINT fk_reaccion_usuario
     FOREIGN KEY (id_usuario)
     REFERENCES usuario(id_usuario)
-    ON DELETE CASCADE,
+    ON DELETE NO ACTION,
 
     CONSTRAINT fk_reaccion_publicacion
     FOREIGN KEY (id_publicacion)
@@ -135,12 +195,19 @@ CREATE TABLE reaccion (
 
 -- =========================================
 -- 8. TABLA: mensaje
+-- Intermedia
 -- =========================================
+
 CREATE TABLE mensaje (
     id_mensaje INT IDENTITY(1,1) PRIMARY KEY,
-    contenido TEXT NOT NULL,
-    fecha_envio DATETIME DEFAULT GETDATE(),
+
+    contenido VARCHAR(MAX) NOT NULL,
+
+    fecha_envio DATETIME
+    DEFAULT GETDATE(),
+
     id_emisor INT NOT NULL,
+
     id_receptor INT NOT NULL,
 
     CONSTRAINT fk_mensaje_emisor
@@ -151,20 +218,29 @@ CREATE TABLE mensaje (
     CONSTRAINT fk_mensaje_receptor
     FOREIGN KEY (id_receptor)
     REFERENCES usuario(id_usuario)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
 );
 
 -- =========================================
 -- 9. TABLA: solicitud_amistad
+-- Intermedia
 -- =========================================
+
 CREATE TABLE solicitud_amistad (
     id_solicitud INT IDENTITY(1,1) PRIMARY KEY,
 
     estado VARCHAR(20)
-    CHECK (estado IN ('pendiente', 'aceptada', 'rechazada')),
+    CHECK (estado IN (
+        'pendiente',
+        'aceptada',
+        'rechazada'
+    )),
 
-    fecha_envio DATE DEFAULT GETDATE(),
+    fecha_envio DATE
+    DEFAULT CAST(GETDATE() AS DATE),
+
     id_emisor INT NOT NULL,
+
     id_receptor INT NOT NULL,
 
     CONSTRAINT fk_solicitud_emisor
@@ -175,23 +251,30 @@ CREATE TABLE solicitud_amistad (
     CONSTRAINT fk_solicitud_receptor
     FOREIGN KEY (id_receptor)
     REFERENCES usuario(id_usuario)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
 );
 
 -- =========================================
 -- 10. TABLA: reporte
+-- Intermedia
 -- =========================================
+
 CREATE TABLE reporte (
     id_reporte INT IDENTITY(1,1) PRIMARY KEY,
-    motivo TEXT,
-    fecha_reporte DATE DEFAULT GETDATE(),
+
+    motivo VARCHAR(MAX),
+
+    fecha_reporte DATE
+    DEFAULT CAST(GETDATE() AS DATE),
+
     id_usuario INT NOT NULL,
+
     id_publicacion INT NOT NULL,
 
     CONSTRAINT fk_reporte_usuario
     FOREIGN KEY (id_usuario)
     REFERENCES usuario(id_usuario)
-    ON DELETE CASCADE,
+    ON DELETE NO ACTION,
 
     CONSTRAINT fk_reporte_publicacion
     FOREIGN KEY (id_publicacion)
@@ -201,11 +284,17 @@ CREATE TABLE reporte (
 
 -- =========================================
 -- 11. TABLA: notificacion
+-- Dependiente de usuario
 -- =========================================
+
 CREATE TABLE notificacion (
     id_notificacion INT IDENTITY(1,1) PRIMARY KEY,
-    mensaje TEXT NOT NULL,
-    fecha DATETIME DEFAULT GETDATE(),
+
+    mensaje VARCHAR(MAX) NOT NULL,
+
+    fecha DATETIME
+    DEFAULT GETDATE(),
+
     id_usuario INT NOT NULL,
 
     CONSTRAINT fk_notificacion_usuario
@@ -213,3 +302,28 @@ CREATE TABLE notificacion (
     REFERENCES usuario(id_usuario)
     ON DELETE CASCADE
 );
+
+-- =========================================
+-- ÍNDICES PARA OPTIMIZACIÓN
+-- =========================================
+
+CREATE INDEX idx_publicacion_usuario
+ON publicacion(id_usuario);
+
+CREATE INDEX idx_comentario_publicacion
+ON comentario(id_publicacion);
+
+CREATE INDEX idx_reaccion_publicacion
+ON reaccion(id_publicacion);
+
+CREATE INDEX idx_evento_grupo
+ON evento(id_grupo);
+
+-- =========================================
+-- CONSULTA DE VALIDACIÓN
+-- =========================================
+
+SELECT * FROM usuario;
+SELECT * FROM publicacion;
+SELECT * FROM comentario;
+
