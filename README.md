@@ -1,4 +1,4 @@
-bd1-redsocial-grupo9
+bd1-redsocial-grupo1
 
 Red Social Pascualina
 
