@@ -1,0 +1,73 @@
+```sql
+--
+-- Script de Consulta con Parámetros a partir de una Vista (VIEW)
+-- Base de Datos: Red Social Pascualina
+-- SGBD PostgreSQL
+--
+
+-- =========================================
+-- 1.- CREAR LA VISTA (VIEW)
+-- No debe llevar WHERE, GROUP BY ni ORDER BY
+-- =========================================
+
+CREATE VIEW vista_publicaciones_usuarios AS
+SELECT
+    u.id_usuario,
+    u.nombre,
+    u.tipo_usuario,
+    p.id_publicacion,
+    p.contenido,
+    p.fecha_publicacion,
+    p.visibilidad
+FROM usuario u
+INNER JOIN publicacion p
+ON u.id_usuario = p.id_usuario;
+
+
+-- =========================================
+-- 2.- PREPARAR LA CONSULTA UTILIZANDO LA VISTA
+-- Parámetros en WHERE y HAVING
+-- =========================================
+
+PREPARE consulta_publicaciones(VARCHAR, INTEGER) AS
+SELECT
+    nombre,
+    tipo_usuario,
+    COUNT(id_publicacion) AS total_publicaciones
+FROM vista_publicaciones_usuarios
+WHERE tipo_usuario = $1
+GROUP BY nombre, tipo_usuario
+HAVING COUNT(id_publicacion) >= $2;
+
+
+-- =========================================
+-- 3.- EJECUTAR CONSULTAS CON DIFERENTES PARÁMETROS
+-- =========================================
+
+-- Consulta 1
+EXECUTE consulta_publicaciones('Estudiante', 1);
+
+-- Consulta 2
+EXECUTE consulta_publicaciones('Administrador', 1);
+
+-- Consulta 3
+EXECUTE consulta_publicaciones('Docente', 2);
+
+
+-- =========================================
+-- 4.- IMPORTANCIA DE ESTA EXPERIENCIA
+-- =========================================
+
+/*
+La utilización de vistas y consultas parametrizadas permite reutilizar
+consultas complejas de forma más segura y eficiente.
+
+Las vistas ayudan a simplificar el acceso a la información,
+mientras que las consultas con parámetros permiten filtrar datos
+sin necesidad de reescribir el código SQL.
+
+Además, este proceso mejora la seguridad,
+optimiza el rendimiento y facilita el mantenimiento
+de la base de datos.
+*/
+```

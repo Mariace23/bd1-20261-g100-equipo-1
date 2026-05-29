@@ -1,0 +1,136 @@
+```sql
+--
+-- Scripts de experimentación de escenarios Big Data e IoT
+-- Base de Datos: Red Social Pascualina
+-- SGBD PostgreSQL
+--
+
+-- =====================================================
+-- 1.- CREAR TABLA usuario_test
+-- =====================================================
+
+CREATE TABLE usuario_test (
+    id_usuario SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    correo VARCHAR(120),
+    ciudad VARCHAR(80),
+    fecha_registro TIMESTAMP,
+    datos_salud JSONB
+);
+
+
+-- =====================================================
+-- 2.- FUNCIÓN PARA GENERAR REGISTROS ALEATORIOS
+-- =====================================================
+
+CREATE OR REPLACE FUNCTION generar_usuarios(cantidad INTEGER)
+RETURNS VOID AS
+$$
+BEGIN
+
+INSERT INTO usuario_test
+(nombre, correo, ciudad, fecha_registro, datos_salud)
+
+SELECT
+    'usuario_' || g,
+    'usuario_' || g || '@pascualina.edu.co',
+    'Ciudad_' || (random()*50)::INTEGER,
+    CURRENT_TIMESTAMP,
+
+    jsonb_build_object(
+        'presion_sanguinea', (100 + random()*40)::INTEGER || '/' || (60 + random()*20)::INTEGER,
+        'temperatura_corporal', round((35 + random()*3)::numeric,1),
+        'grupo_sanguineo',
+            (ARRAY['A+','A-','B+','B-','AB+','AB-','O+','O-'])
+            [floor(random()*8 + 1)],
+        'nivel_azucar', round((70 + random()*80)::numeric,1),
+        'fecha_medicion', CURRENT_DATE,
+        'hora_medicion', CURRENT_TIME
+    )
+
+FROM generate_series(1, cantidad) AS g;
+
+END;
+$$
+LANGUAGE plpgsql;
+
+
+-- =====================================================
+-- 3.- SIMULACIONES BIG DATA / IOT
+-- =====================================================
+
+
+-- =====================================================
+-- SIMULACIÓN 1 -> 1.000 registros
+-- =====================================================
+
+EXPLAIN ANALYZE
+SELECT generar_usuarios(1000);
+
+TRUNCATE TABLE usuario_test;
+
+
+-- =====================================================
+-- SIMULACIÓN 2 -> 10.000 registros
+-- =====================================================
+
+EXPLAIN ANALYZE
+SELECT generar_usuarios(10000);
+
+TRUNCATE TABLE usuario_test;
+
+
+-- =====================================================
+-- SIMULACIÓN 3 -> 100.000 registros
+-- =====================================================
+
+EXPLAIN ANALYZE
+SELECT generar_usuarios(100000);
+
+TRUNCATE TABLE usuario_test;
+
+
+-- =====================================================
+-- SIMULACIÓN 4 -> 1.000.000 registros
+-- =====================================================
+
+EXPLAIN ANALYZE
+SELECT generar_usuarios(1000000);
+
+TRUNCATE TABLE usuario_test;
+
+
+-- =====================================================
+-- SIMULACIÓN 5 -> 10.000.000 registros
+-- =====================================================
+
+EXPLAIN ANALYZE
+SELECT generar_usuarios(10000000);
+
+TRUNCATE TABLE usuario_test;
+
+
+-- =====================================================
+-- 4.- RESULTADOS
+-- =====================================================
+
+/*
+Después de ejecutar cada simulación,
+PostgreSQL mostrará valores como:
+
+Planning Time
+Execution Time
+
+Estos tiempos deben copiarse manualmente
+en el cuadro consolidado del informe.
+
+Este ejercicio permite evaluar:
+- Rendimiento de escritura masiva
+- Manejo de datos semi estructurados
+- Capacidad de escalabilidad
+- Procesamiento de escenarios Big Data e IoT
+
+El campo JSONB permite almacenar datos médicos
+de forma flexible y eficiente para millones de usuarios.
+*/
+```

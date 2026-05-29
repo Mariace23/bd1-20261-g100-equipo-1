@@ -1,0 +1,92 @@
+```sql id="0gf7qn"
+--
+-- Scripts de Manipulación de un campo JSONB
+-- Tabla: perfil
+-- Base de Datos: Red Social Pascualina
+-- SGBD PostgreSQL
+--
+
+-- =========================================
+-- Agregar un nuevo campo JSONB
+-- =========================================
+
+ALTER TABLE perfil
+ADD COLUMN preferencias_usuario JSONB;
+
+
+-- =========================================
+-- 1.- Inserción del dato semi estructurado
+-- =========================================
+
+UPDATE perfil
+SET preferencias_usuario =
+'{
+    "tema": "oscuro",
+    "notificaciones": true,
+    "idioma": "español",
+    "categorias_favoritas": ["programacion", "videojuegos", "musica"]
+}'
+WHERE id_perfil = 1;
+
+
+UPDATE perfil
+SET preferencias_usuario =
+'{
+    "tema": "claro",
+    "notificaciones": false,
+    "idioma": "ingles",
+    "categorias_favoritas": ["cine", "deportes", "tecnologia"]
+}'
+WHERE id_perfil = 2;
+
+
+-- =========================================
+-- 2.- Consulta de los datos del campo
+-- =========================================
+
+SELECT
+    id_perfil,
+    preferencias_usuario
+FROM perfil;
+
+
+SELECT
+    preferencias_usuario ->> 'tema' AS tema,
+    preferencias_usuario ->> 'idioma' AS idioma
+FROM perfil;
+
+
+-- =========================================
+-- 3.- Modificación de uno de los datos
+-- =========================================
+
+UPDATE perfil
+SET preferencias_usuario =
+jsonb_set(
+    preferencias_usuario,
+    '{tema}',
+    '"modo gamer"'
+)
+WHERE id_perfil = 1;
+
+
+-- =========================================
+-- 4.- Eliminación de uno de los datos
+-- =========================================
+
+UPDATE perfil
+SET preferencias_usuario =
+preferencias_usuario - 'idioma'
+WHERE id_perfil = 2;
+
+
+-- =========================================
+-- Verificación final
+-- =========================================
+
+SELECT
+    id_perfil,
+    preferencias_usuario
+FROM perfil;
+```
+

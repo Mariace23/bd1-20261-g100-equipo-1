@@ -1,0 +1,93 @@
+```sql id="u3r9wc"
+--
+-- Scripts de Consultas con Agrupamientos y Funciones de Agregación
+-- Base de Datos: Red Social Pascualina
+-- SGBD PostgreSQL
+--
+
+-- =========================================
+-- Consulta #1: Grupos
+-- Cantidad de grupos creados por usuario
+-- =========================================
+
+SELECT
+    u.nombre,
+    COUNT(g.id_grupo) AS total_grupos
+FROM usuario u
+LEFT JOIN grupo g
+ON u.id_usuario = g.id_usuario
+GROUP BY u.nombre
+ORDER BY total_grupos DESC;
+
+
+-- =========================================
+-- Consulta #2: Eventos
+-- Cantidad de eventos por grupo
+-- =========================================
+
+SELECT
+    g.nombre_grupo,
+    COUNT(e.id_evento) AS total_eventos
+FROM grupo g
+LEFT JOIN evento e
+ON g.id_grupo = e.id_grupo
+GROUP BY g.nombre_grupo
+ORDER BY total_eventos DESC;
+
+
+-- =========================================
+-- Consulta #3: Tipos de Servicio
+-- Cantidad de usuarios por tipo de usuario
+-- =========================================
+
+SELECT
+    tipo_usuario,
+    COUNT(id_usuario) AS total_usuarios
+FROM usuario
+GROUP BY tipo_usuario
+ORDER BY total_usuarios DESC;
+
+
+-- =========================================
+-- Consulta #4: Productos
+-- Cantidad de publicaciones realizadas por usuario
+-- =========================================
+
+SELECT
+    u.nombre,
+    COUNT(p.id_publicacion) AS total_publicaciones
+FROM usuario u
+LEFT JOIN publicacion p
+ON u.id_usuario = p.id_usuario
+GROUP BY u.nombre
+ORDER BY total_publicaciones DESC;
+
+
+-- =========================================
+-- Consulta #5: Tipos de Producto
+-- Cantidad de reacciones por tipo
+-- =========================================
+
+SELECT
+    tipo_reaccion,
+    COUNT(id_reaccion) AS total_reacciones
+FROM reaccion
+GROUP BY tipo_reaccion
+ORDER BY total_reacciones DESC;
+
+
+-- =========================================
+-- Consulta #6: LIBRE DE PLANTEAMIENTO
+-- Cantidad de comentarios realizados por usuario
+-- =========================================
+
+SELECT
+    u.nombre,
+    COUNT(c.id_comentario) AS total_comentarios
+FROM usuario u
+LEFT JOIN comentario c
+ON u.id_usuario = c.id_usuario
+GROUP BY u.nombre
+ORDER BY total_comentarios DESC;
+```
+

@@ -1,0 +1,93 @@
+```sql id="z7j4sm"
+--
+-- Scripts de Manipulación de un campo JSON
+-- Tabla: perfil
+-- Base de Datos: Red Social Pascualina
+-- SGBD PostgreSQL
+--
+
+-- =========================================
+-- Agregar un nuevo campo JSON
+-- =========================================
+
+ALTER TABLE perfil
+ADD COLUMN configuracion_usuario JSONB;
+
+
+-- =========================================
+-- 1.- Inserción del dato semi estructurado
+-- =========================================
+
+UPDATE perfil
+SET configuracion_usuario =
+'{
+    "tema": "oscuro",
+    "notificaciones": true,
+    "idioma": "español",
+    "redes_favoritas": ["programacion", "videojuegos", "musica"]
+}'
+WHERE id_perfil = 1;
+
+
+UPDATE perfil
+SET configuracion_usuario =
+'{
+    "tema": "claro",
+    "notificaciones": false,
+    "idioma": "ingles",
+    "redes_favoritas": ["deportes", "cine", "tecnologia"]
+}'
+WHERE id_perfil = 2;
+
+
+-- =========================================
+-- 2.- Consulta de los datos del campo
+-- =========================================
+
+SELECT
+    id_perfil,
+    configuracion_usuario
+FROM perfil;
+
+
+SELECT
+    configuracion_usuario ->> 'tema' AS tema_usuario,
+    configuracion_usuario ->> 'idioma' AS idioma_usuario
+FROM perfil;
+
+
+-- =========================================
+-- 3.- Modificación de un dato dentro de la semi estructura
+-- =========================================
+
+UPDATE perfil
+SET configuracion_usuario =
+jsonb_set(
+    configuracion_usuario,
+    '{tema}',
+    '"neon"'
+)
+WHERE id_perfil = 1;
+
+
+-- =========================================
+-- 4.- Eliminación de un dato dentro de la semi estructura
+-- =========================================
+
+UPDATE perfil
+SET configuracion_usuario =
+configuracion_usuario - 'idioma'
+WHERE id_perfil = 2;
+
+
+-- =========================================
+-- Verificación final
+-- =========================================
+
+SELECT
+    id_perfil,
+    configuracion_usuario
+FROM perfil;
+```
+
+

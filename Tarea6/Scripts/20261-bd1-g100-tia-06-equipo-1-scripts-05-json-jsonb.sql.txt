@@ -1,0 +1,99 @@
+```sql id="2zxtc7"
+--
+-- Scripts de comparación de rendimiento de datos semi estructurados
+-- JSON y JSONB
+-- Base de Datos: Red Social Pascualina
+-- SGBD PostgreSQL
+--
+
+-- =====================================================
+-- 1.- RENDIMIENTO DEL CAMPO JSON
+-- Inserción y lectura de 500 registros
+-- =====================================================
+
+-- Crear tabla de prueba JSON
+
+CREATE TABLE prueba_json (
+    id SERIAL PRIMARY KEY,
+    datos JSON
+);
+
+
+-- Inserción de 500 registros JSON
+
+EXPLAIN ANALYZE
+INSERT INTO prueba_json (datos)
+SELECT
+json_build_object(
+    'usuario', 'usuario_' || g,
+    'tema', 'oscuro',
+    'intereses', ARRAY['programacion','musica','videojuegos']
+)
+FROM generate_series(1,500) AS g;
+
+
+-- Lectura de 500 registros JSON
+
+EXPLAIN ANALYZE
+SELECT *
+FROM prueba_json
+WHERE datos ->> 'tema' = 'oscuro';
+
+
+-- =====================================================
+-- 2.- RENDIMIENTO DEL CAMPO JSONB
+-- Inserción y lectura de 500 registros
+-- =====================================================
+
+-- Crear tabla de prueba JSONB
+
+CREATE TABLE prueba_jsonb (
+    id SERIAL PRIMARY KEY,
+    datos JSONB
+);
+
+
+-- Inserción de 500 registros JSONB
+
+EXPLAIN ANALYZE
+INSERT INTO prueba_jsonb (datos)
+SELECT
+jsonb_build_object(
+    'usuario', 'usuario_' || g,
+    'tema', 'oscuro',
+    'intereses', ARRAY['programacion','musica','videojuegos']
+)
+FROM generate_series(1,500) AS g;
+
+
+-- Lectura de 500 registros JSONB
+
+EXPLAIN ANALYZE
+SELECT *
+FROM prueba_jsonb
+WHERE datos ->> 'tema' = 'oscuro';
+
+
+-- =====================================================
+-- 3.- REGISTRO DE RESULTADOS
+-- =====================================================
+
+/*
+Después de ejecutar las consultas anteriores,
+PostgreSQL mostrará información como:
+
+Planning Time
+Execution Time
+
+Estos valores deben copiarse manualmente
+en el cuadro comparativo del informe.
+
+Generalmente:
+- JSON tiene inserciones un poco más rápidas.
+- JSONB tiene lecturas y búsquedas más eficientes.
+- JSONB permite indexación y mejor optimización.
+
+Por esta razón, JSONB es más recomendado
+para aplicaciones Big Data y consultas frecuentes.
+*/
+```
