@@ -1,0 +1,74 @@
+```sql id="q2m7xp"
+--
+-- Scripts de DELETE de la Base de Datos - SGBD PostgreSQL
+--
+-- Todas las instrucciones se DEBEN EJECUTAR EN SECUENCIA SIN ERRORES
+-- NOTA: Primero eliminar tablas dependientes y luego las independientes
+--
+
+-- =========================================
+-- DELETE TABLA: notificacion
+-- =========================================
+
+DELETE FROM notificacion;
+
+-- =========================================
+-- DELETE TABLA: reporte
+-- =========================================
+
+DELETE FROM reporte;
+
+-- =========================================
+-- DELETE TABLA: solicitud_amistad
+-- =========================================
+
+DELETE FROM solicitud_amistad;
+
+-- =========================================
+-- DELETE TABLA: mensaje
+-- =========================================
+
+DELETE FROM mensaje;
+
+-- =========================================
+-- DELETE TABLA: reaccion
+-- =========================================
+
+DELETE FROM reaccion;
+
+-- =========================================
+-- DELETE TABLA: comentario
+-- =========================================
+
+DELETE FROM comentario;
+
+-- =========================================
+-- DELETE TABLA: evento
+-- =========================================
+
+DELETE FROM evento;
+
+-- =========================================
+-- DELETE TABLA: publicacion
+-- =========================================
+
+DELETE FROM publicacion;
+
+-- =========================================
+-- DELETE TABLA: perfil
+-- =========================================
+
+DELETE FROM perfil;
+
+-- =========================================
+-- DELETE TABLA: grupo
+-- =========================================
+
+DELETE FROM grupo;
+
+-- =========================================
+-- DELETE TABLA: usuario
+-- =========================================
+
+DELETE FROM usuario;
+```

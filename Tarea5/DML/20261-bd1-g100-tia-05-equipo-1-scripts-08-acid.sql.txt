@@ -1,0 +1,107 @@
+```sql id="t4q8vz"
+--
+-- Script para Verificar las Propiedades ACID
+-- Base de Datos: Red Social Pascualina
+-- SGBD PostgreSQL
+--
+
+-- =========================================
+-- 1. ATOMICIDAD (ATOMICITY)
+-- =========================================
+-- Todas las operaciones se completan o ninguna se ejecuta
+
+BEGIN;
+
+INSERT INTO usuario
+(nombre, correo, contraseña, tipo_usuario, fecha_registro)
+VALUES
+(
+    'Carlos Ruiz',
+    'carlos@pascual.edu.co',
+    'clave789',
+    'Estudiante',
+    '2026-06-15'
+);
+
+-- Simulación de error
+-- La siguiente tabla no existe
+
+INSERT INTO tabla_error VALUES (1);
+
+ROLLBACK;
+
+-- Verificación
+SELECT * FROM usuario
+WHERE correo = 'carlos@pascual.edu.co';
+
+-- Resultado esperado:
+-- El usuario NO debe existir porque toda la transacción fue revertida
+
+
+-- =========================================
+-- 2. CONSISTENCIA (CONSISTENCY)
+-- =========================================
+-- La base de datos debe mantener reglas y restricciones válidas
+
+-- Intentar insertar un comentario con usuario inexistente
+
+INSERT INTO comentario
+(id_usuario, id_publicacion, contenido, fecha_comentario)
+VALUES
+(
+    999,
+    1,
+    'Comentario inválido',
+    '2026-06-15'
+);
+
+-- Resultado esperado:
+-- PostgreSQL debe generar error por restricción FOREIGN KEY
+
+
+-- =========================================
+-- 3. AISLAMIENTO (ISOLATION)
+-- =========================================
+-- Las transacciones concurrentes no deben interferir entre sí
+
+BEGIN;
+
+UPDATE publicacion
+SET contenido = 'Contenido actualizado temporalmente'
+WHERE id_publicacion = 1;
+
+-- Mantener la transacción abierta temporalmente
+-- En otra sesión se puede ejecutar:
+-- SELECT * FROM publicacion;
+
+ROLLBACK;
+
+-- Resultado esperado:
+-- Otros usuarios no deben visualizar cambios no confirmados
+
+
+-- =========================================
+-- 4. DURABILIDAD (DURABILITY)
+-- =========================================
+-- Los datos confirmados permanecen guardados
+
+BEGIN;
+
+INSERT INTO notificacion
+(mensaje, fecha, id_usuario)
+VALUES
+(
+    'Nueva notificación permanente',
+    CURRENT_TIMESTAMP,
+    1
+);
+
+COMMIT;
+
+-- Verificación
+SELECT * FROM notificacion
+WHERE mensaje = 'Nueva notificación permanente';
+
+-- Resultado esperado:
+-- El registro debe permanecer almacenado incluso después del COMMIT
+```

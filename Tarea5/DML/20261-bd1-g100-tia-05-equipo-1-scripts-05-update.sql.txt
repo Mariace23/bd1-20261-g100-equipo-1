@@ -1,0 +1,100 @@
+```sql id="v9n2ks"
+--
+-- Scripts de UPDATE de la Base de Datos - SGBD PostgreSQL
+--
+-- Actualización de registros en las tablas
+-- Todas las instrucciones se deben ejecutar sin errores
+--
+
+-- =========================================
+-- UPDATE TABLA: usuario
+-- =========================================
+
+UPDATE usuario
+SET nombre = 'Mariana Acevedo Agudelo'
+WHERE id_usuario = 1;
+
+UPDATE usuario
+SET tipo_usuario = 'Administrador'
+WHERE id_usuario = 2;
+
+-- =========================================
+-- UPDATE TABLA: grupo
+-- =========================================
+
+UPDATE grupo
+SET descripcion = 'Grupo oficial para compartir temas de programación y tecnología'
+WHERE id_grupo = 1;
+
+-- =========================================
+-- UPDATE TABLA: perfil
+-- =========================================
+
+UPDATE perfil
+SET habilidades = 'Java, PostgreSQL, Python'
+WHERE id_perfil = 1;
+
+-- =========================================
+-- UPDATE TABLA: publicacion
+-- =========================================
+
+UPDATE publicacion
+SET visibilidad = 'Amigos'
+WHERE id_publicacion = 2;
+
+-- =========================================
+-- UPDATE TABLA: evento
+-- =========================================
+
+UPDATE evento
+SET lugar = 'Auditorio Principal'
+WHERE id_evento = 1;
+
+-- =========================================
+-- UPDATE TABLA: comentario
+-- =========================================
+
+UPDATE comentario
+SET contenido = 'Sí, yo apuntes completos'
+WHERE id_comentario = 1;
+
+-- =========================================
+-- UPDATE TABLA: reaccion
+-- =========================================
+
+UPDATE reaccion
+SET tipo_reaccion = 'Wow'
+WHERE id_reaccion = 2;
+
+-- =========================================
+-- UPDATE TABLA: mensaje
+-- =========================================
+
+UPDATE mensaje
+SET contenido = 'Claro, ya te envié el taller por correo'
+WHERE id_mensaje = 2;
+
+-- =========================================
+-- UPDATE TABLA: solicitud_amistad
+-- =========================================
+
+UPDATE solicitud_amistad
+SET estado = 'Aceptada'
+WHERE id_solicitud = 1;
+
+-- =========================================
+-- UPDATE TABLA: reporte
+-- =========================================
+
+UPDATE reporte
+SET motivo = 'Contenido ofensivo'
+WHERE id_reporte = 1;
+
+-- =========================================
+-- UPDATE TABLA: notificacion
+-- =========================================
+
+UPDATE notificacion
+SET mensaje = 'Tu solicitud de amistad fue aceptada'
+WHERE id_notificacion = 1;
+```

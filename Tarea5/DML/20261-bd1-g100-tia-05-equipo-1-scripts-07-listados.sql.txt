@@ -1,0 +1,111 @@
+```sql id="m5x8qr"
+--
+-- Scripts de LISTADOS de la Base de Datos - SGBD PostgreSQL
+--
+-- Consultas de información de las tablas
+-- Todas las instrucciones se deben ejecutar sin errores
+--
+
+-- =========================================
+-- LISTADO TABLA: usuario
+-- =========================================
+
+SELECT * FROM usuario;
+
+-- =========================================
+-- LISTADO TABLA: grupo
+-- =========================================
+
+SELECT * FROM grupo;
+
+-- =========================================
+-- LISTADO TABLA: perfil
+-- =========================================
+
+SELECT * FROM perfil;
+
+-- =========================================
+-- LISTADO TABLA: publicacion
+-- =========================================
+
+SELECT * FROM publicacion;
+
+-- =========================================
+-- LISTADO TABLA: evento
+-- =========================================
+
+SELECT * FROM evento;
+
+-- =========================================
+-- LISTADO TABLA: comentario
+-- =========================================
+
+SELECT * FROM comentario;
+
+-- =========================================
+-- LISTADO TABLA: reaccion
+-- =========================================
+
+SELECT * FROM reaccion;
+
+-- =========================================
+-- LISTADO TABLA: mensaje
+-- =========================================
+
+SELECT * FROM mensaje;
+
+-- =========================================
+-- LISTADO TABLA: solicitud_amistad
+-- =========================================
+
+SELECT * FROM solicitud_amistad;
+
+-- =========================================
+-- LISTADO TABLA: reporte
+-- =========================================
+
+SELECT * FROM reporte;
+
+-- =========================================
+-- LISTADO TABLA: notificacion
+-- =========================================
+
+SELECT * FROM notificacion;
+
+-- =========================================
+-- CONSULTAS ADICIONALES
+-- =========================================
+
+-- Usuarios registrados
+SELECT nombre, correo, tipo_usuario
+FROM usuario;
+
+-- Publicaciones con nombre del usuario
+SELECT u.nombre, p.contenido, p.fecha_publicacion
+FROM usuario u
+INNER JOIN publicacion p
+ON u.id_usuario = p.id_usuario;
+
+-- Comentarios realizados en publicaciones
+SELECT c.contenido, p.contenido AS publicacion
+FROM comentario c
+INNER JOIN publicacion p
+ON c.id_publicacion = p.id_publicacion;
+
+-- Eventos creados por grupos
+SELECT e.nombre_evento, g.nombre_grupo
+FROM evento e
+INNER JOIN grupo g
+ON e.id_grupo = g.id_grupo;
+
+-- Mensajes entre usuarios
+SELECT 
+    u1.nombre AS emisor,
+    u2.nombre AS receptor,
+    m.contenido
+FROM mensaje m
+INNER JOIN usuario u1
+ON m.id_emisor = u1.id_usuario
+INNER JOIN usuario u2
+ON m.id_receptor = u2.id_usuario;
+```

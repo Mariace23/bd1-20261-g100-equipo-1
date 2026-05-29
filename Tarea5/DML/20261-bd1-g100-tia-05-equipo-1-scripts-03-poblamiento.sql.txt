@@ -1,0 +1,234 @@
+```sql id="j7k39s"
+--
+-- Scripts de Poblamiento de la Base de Datos - SGBD PostgreSQL
+--
+-- Todas las instrucciones se DEBEN EJECUTAR EN SECUENCIA SIN ERRORES
+-- NOTA: Primero las tablas independientes y después las dependientes
+--
+
+-- =========================================
+-- POBLAMIENTO TABLA: usuario
+-- =========================================
+
+INSERT INTO usuario
+(nombre, correo, contraseña, tipo_usuario, fecha_registro, perfil_usuario)
+VALUES
+(
+    'Mariana Acevedo',
+    'mariana@pascual.edu.co',
+    'clave123',
+    'Estudiante',
+    '2026-06-01',
+    '{"carrera":"Ingeniería de Sistemas","intereses":["programación","videojuegos"],"nivel":"avanzado"}'
+),
+(
+    'Juan Pérez',
+    'juan@pascual.edu.co',
+    'juan456',
+    'Docente',
+    '2026-06-02',
+    '{"especialidad":"Bases de Datos","experiencia":"5 años","estado":"activo"}'
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: grupo
+-- =========================================
+
+INSERT INTO grupo
+(nombre_grupo, descripcion, fecha_creacion, id_usuario)
+VALUES
+(
+    'Programadores Pascualinos',
+    'Grupo para compartir temas de programación',
+    '2026-06-03',
+    1
+),
+(
+    'Gamers UPB',
+    'Grupo de estudiantes aficionados a videojuegos',
+    '2026-06-04',
+    2
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: perfil
+-- =========================================
+
+INSERT INTO perfil
+(id_usuario, biografia, intereses, habilidades)
+VALUES
+(
+    1,
+    'Estudiante apasionada por la tecnología',
+    'Programación y diseño',
+    'Java, PostgreSQL'
+),
+(
+    2,
+    'Docente del área de software',
+    'Bases de datos y análisis',
+    'SQL Server, MySQL'
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: publicacion
+-- =========================================
+
+INSERT INTO publicacion
+(id_usuario, contenido, fecha_publicacion, visibilidad, datos_multimedia)
+VALUES
+(
+    1,
+    '¿Alguien tiene apuntes de bases de datos?',
+    '2026-06-05',
+    'Publica',
+    '{"tipo":"imagen","archivo":"bd.png"}'
+),
+(
+    2,
+    'Recuerden entregar la actividad antes del viernes',
+    '2026-06-06',
+    'Privada',
+    '{"tipo":"pdf","archivo":"actividad.pdf"}'
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: evento
+-- =========================================
+
+INSERT INTO evento
+(nombre_evento, descripcion, fecha_evento, lugar, detalles_evento, id_grupo)
+VALUES
+(
+    'Hackathon Pascualina',
+    'Evento de programación colaborativa',
+    '2026-06-20',
+    'Bloque A',
+    '{"duracion":"8 horas","equipos":"5"}',
+    1
+),
+(
+    'Torneo Gamer',
+    'Competencia de videojuegos',
+    '2026-06-25',
+    'Sala Multimedia',
+    '{"videojuego":"FIFA","premio":"500000"}',
+    2
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: comentario
+-- =========================================
+
+INSERT INTO comentario
+(id_usuario, id_publicacion, contenido, fecha_comentario)
+VALUES
+(
+    2,
+    1,
+    'Sí, yo los tengo',
+    '2026-06-06'
+),
+(
+    1,
+    2,
+    'Gracias por el aviso',
+    '2026-06-06'
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: reaccion
+-- =========================================
+
+INSERT INTO reaccion
+(id_usuario, id_publicacion, tipo_reaccion)
+VALUES
+(
+    1,
+    2,
+    'Like'
+),
+(
+    2,
+    1,
+    'Love'
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: mensaje
+-- =========================================
+
+INSERT INTO mensaje
+(contenido, fecha_envio, id_emisor, id_receptor)
+VALUES
+(
+    'Hola, ¿me compartes el taller?',
+    '2026-06-07 10:30:00',
+    1,
+    2
+),
+(
+    'Claro, ya te lo envío',
+    '2026-06-07 10:35:00',
+    2,
+    1
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: solicitud_amistad
+-- =========================================
+
+INSERT INTO solicitud_amistad
+(estado, fecha_envio, id_emisor, id_receptor)
+VALUES
+(
+    'Pendiente',
+    '2026-06-07',
+    1,
+    2
+),
+(
+    'Aceptada',
+    '2026-06-08',
+    2,
+    1
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: reporte
+-- =========================================
+
+INSERT INTO reporte
+(motivo, fecha_reporte, id_usuario, id_publicacion)
+VALUES
+(
+    'Contenido inapropiado',
+    '2026-06-09',
+    1,
+    2
+),
+(
+    'Spam',
+    '2026-06-09',
+    2,
+    1
+);
+
+-- =========================================
+-- POBLAMIENTO TABLA: notificacion
+-- =========================================
+
+INSERT INTO notificacion
+(mensaje, fecha, id_usuario)
+VALUES
+(
+    'Tienes una nueva solicitud de amistad',
+    '2026-06-10 08:00:00',
+    1
+),
+(
+    'Tu publicación recibió una reacción',
+    '2026-06-10 09:00:00',
+    2
+);
+```
