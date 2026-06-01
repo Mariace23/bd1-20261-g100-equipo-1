@@ -1,4 +1,3 @@
-```sql id="z7j4sm"
 --
 -- Scripts de Manipulación de un campo JSON
 -- Tabla: perfil
@@ -88,6 +87,5 @@ SELECT
     id_perfil,
     configuracion_usuario
 FROM perfil;
-```
 
 
