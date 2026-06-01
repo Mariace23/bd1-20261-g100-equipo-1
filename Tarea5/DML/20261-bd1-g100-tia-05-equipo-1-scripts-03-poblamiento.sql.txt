@@ -1,5 +1,3 @@
-```sql id="j7k39s"
---
 -- Scripts de Poblamiento de la Base de Datos - SGBD PostgreSQL
 --
 -- Todas las instrucciones se DEBEN EJECUTAR EN SECUENCIA SIN ERRORES
@@ -231,4 +229,3 @@ VALUES
     '2026-06-10 09:00:00',
     2
 );
-```

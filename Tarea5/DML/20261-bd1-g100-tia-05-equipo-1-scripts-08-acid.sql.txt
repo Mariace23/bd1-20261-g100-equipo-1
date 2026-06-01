@@ -1,4 +1,3 @@
-```sql id="t4q8vz"
 --
 -- Script para Verificar las Propiedades ACID
 -- Base de Datos: Red Social Pascualina
@@ -104,4 +103,3 @@ WHERE mensaje = 'Nueva notificación permanente';
 
 -- Resultado esperado:
 -- El registro debe permanecer almacenado incluso después del COMMIT
-```
