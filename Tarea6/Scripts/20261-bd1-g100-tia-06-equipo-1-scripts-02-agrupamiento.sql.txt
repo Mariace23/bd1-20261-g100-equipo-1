@@ -1,4 +1,3 @@
-```sql id="u3r9wc"
 --
 -- Scripts de Consultas con Agrupamientos y Funciones de Agregación
 -- Base de Datos: Red Social Pascualina
@@ -89,5 +88,4 @@ LEFT JOIN comentario c
 ON u.id_usuario = c.id_usuario
 GROUP BY u.nombre
 ORDER BY total_comentarios DESC;
-```
 
