@@ -1,4 +1,3 @@
-```sql id="2zxtc7"
 --
 -- Scripts de comparación de rendimiento de datos semi estructurados
 -- JSON y JSONB
@@ -96,4 +95,3 @@ Generalmente:
 Por esta razón, JSONB es más recomendado
 para aplicaciones Big Data y consultas frecuentes.
 */
-```
