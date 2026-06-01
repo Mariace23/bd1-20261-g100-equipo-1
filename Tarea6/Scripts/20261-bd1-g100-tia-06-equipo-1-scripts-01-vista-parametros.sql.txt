@@ -1,4 +1,3 @@
-```sql
 --
 -- Script de Consulta con Parámetros a partir de una Vista (VIEW)
 -- Base de Datos: Red Social Pascualina
@@ -70,4 +69,3 @@ Además, este proceso mejora la seguridad,
 optimiza el rendimiento y facilita el mantenimiento
 de la base de datos.
 */
-```
