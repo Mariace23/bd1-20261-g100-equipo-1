@@ -1,5 +1,3 @@
-```sql
---
 -- Scripts de Creación de la Base de Datos - SGBD PostgreSQL
 --
 -- Todas las instrucciones se DEBEN EJECUTAR EN SECUENCIA SIN ERRORES
@@ -16,7 +14,7 @@ CREATE DATABASE red_social_pascualina;
 -- USAR BASE DE DATOS
 -- =========================================
 
-\c red_social_pascualina;
+-- red_social_pascualina;
 
 -- =========================================
 -- 1. TABLA: usuario
@@ -227,4 +225,3 @@ CREATE TABLE notificacion (
         REFERENCES usuario(id_usuario)
         ON DELETE CASCADE
 );
-```
