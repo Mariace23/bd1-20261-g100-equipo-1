@@ -1,4 +1,3 @@
-```sql
 --
 -- Scripts de experimentación de escenarios Big Data e IoT
 -- Base de Datos: Red Social Pascualina
@@ -133,4 +132,3 @@ Este ejercicio permite evaluar:
 El campo JSONB permite almacenar datos médicos
 de forma flexible y eficiente para millones de usuarios.
 */
-```
